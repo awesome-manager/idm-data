@@ -1,0 +1,5 @@
+#!/bin/bash
+exec 2>&1
+source /etc/envvars
+cd /var/www
+exec sh -c "sleep $((60 - 10#$(date +%S) )) && chpst -u www-data php artisan schedule:run > /dev/stdout 2> /dev/stderr"
