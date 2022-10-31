@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/token/user', [
             'middleware' => 'client_credentials:private',
-            'uses' => 'AccessTokenController@issueToken',
+            'uses' => 'AccessTokenController@getUserToken',
             'as' => 'token'
         ]);
     });
