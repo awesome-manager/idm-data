@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Tokens;
 
 use Illuminate\Http\Response;
 use Laravel\Passport\Http\Controllers\AccessTokenController as BaseAccessTokenController;
-use Nyholm\Psr7\Response as Psr7Response;
 use Psr\Http\Message\ServerRequestInterface;
 
 class AccessTokenController extends BaseAccessTokenController
@@ -36,14 +35,5 @@ class AccessTokenController extends BaseAccessTokenController
         ));
 
         return $this->issueToken($request);
-    }
-
-    public function issueToken(ServerRequestInterface $request)
-    {
-        return $this->withErrorHandling(function () use ($request) {
-            return $this->convertResponse(
-                $this->server->respondToAccessTokenRequest($request, new Psr7Response)
-            );
-        });
     }
 }
