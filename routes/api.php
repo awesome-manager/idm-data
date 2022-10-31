@@ -19,38 +19,11 @@ Route::prefix('v1')->group(function () {
             'uses' => 'AccessTokenController@getClientToken',
             'as' => 'token'
         ]);
-    });
 
-    Route::post('/token/user', [
-        'uses' => 'AccessTokenController@issueToken',
-        'as' => 'token'
-    ]);
-
-    Route::get('/authorize', [
-        'uses' => 'AuthorizationController@authorize',
-        'as' => 'authorizations.authorize',
-        'middleware' => 'web',
-    ]);
-
-    Route::middleware(['auth'])->group(function () {
-        Route::post('/token/refresh', [
-            'uses' => 'TransientTokenController@refresh',
-            'as' => 'token.refresh',
-        ]);
-
-        Route::post('/authorize', [
-            'uses' => 'ApproveAuthorizationController@approve',
-            'as' => 'authorizations.approve',
-        ]);
-
-        Route::delete('/authorize', [
-            'uses' => 'DenyAuthorizationController@deny',
-            'as' => 'authorizations.deny',
-        ]);
-
-        Route::post('/personal-access-tokens', [
-            'uses' => 'PersonalAccessTokenController@store',
-            'as' => 'personal.tokens.store',
+        Route::post('/token/user', [
+            'middleware' => 'client_credentials:private',
+            'uses' => 'AccessTokenController@issueToken',
+            'as' => 'token'
         ]);
     });
 });

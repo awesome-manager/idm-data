@@ -27,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Passport::tokensCan([
-            'private' => 'Authorize microservice'
+            'private' => 'Authorize microservice',
+            'user' => 'User service',
         ]);
     }
 }
