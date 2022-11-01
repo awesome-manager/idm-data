@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Awesome\Foundation\Traits\Models\AwesomeModel;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +27,11 @@ class User extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
+    }
 
     public function roles(): BelongsToMany
     {
