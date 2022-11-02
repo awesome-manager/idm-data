@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Tokens;
+namespace Tests\Feature\Api\Token;
 
 use App\Models\User;
 use Awesome\Foundation\Traits\Tests\DataHandler;
@@ -16,26 +16,13 @@ class UserTokenTest extends AbstractToken
 
     public function test_get_token_successful(): void
     {
-        $client = $this->createClient([
-            'provider' => 'users',
-            'password_client' => true
-        ]);
-        $this->createToken($client);
-
         $user = User::createActiveEntity();
 
-        $response = $this->post(
-            $this->route,
-            array_merge(
-                $this->getClientValidData($client->id, $client->secret),
-                $this->getUserValidData($user->phone)
-            ),
-            $this->getAuthorizationHeaders()
-        );
+        $response = $this->createUserToken($user);
 
         $this->checkAssert(
             $response,
-            $this->getSuccessStructure()
+            $this->getUserTokenStructure()
         );
 
         $response->assertJson(['token_type' => 'Bearer']);
@@ -47,7 +34,7 @@ class UserTokenTest extends AbstractToken
             'provider' => 'users',
             'password_client' => true
         ]);
-        $this->createToken($client);
+        $this->createClientToken($client);
 
         User::createActiveEntity();
 
@@ -65,36 +52,11 @@ class UserTokenTest extends AbstractToken
             ->assertJson(['error' => 'invalid_grant']);
     }
 
-    private function getAuthorizationHeaders(): array
-    {
-        return [
-            'Authorization' => "{$this->tokenType} $this->token"
-        ];
-    }
-
-    private function getUserValidData(string $phone): array
-    {
-        return [
-            'username' => $phone,
-            'password' => 'password'
-        ];
-    }
-
     private function getUserInvalidData(): array
     {
         $data = User::factory()->definition();
 
         return $this->getUserValidData($data['phone']);
-    }
-
-    private function getSuccessStructure(): array
-    {
-        return [
-            'token_type',
-            'expires_in',
-            'access_token',
-            'refresh_token'
-        ];
     }
 
     private function getErrorStructure(): array

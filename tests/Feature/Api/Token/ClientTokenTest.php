@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Tokens;
+namespace Tests\Feature\Api\Token;
 
 use Awesome\Foundation\Traits\Tests\DataHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,7 @@ class ClientTokenTest extends AbstractToken
 
     public function test_get_token_successful(): void
     {
-        $response = $this->createToken();
+        $response = $this->createClientToken();
 
         $this->checkAssert(
             $response,
