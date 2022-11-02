@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Tokens;
+namespace App\Http\Controllers\Api\Token;
 
 use Illuminate\Http\Response;
 use Laravel\Passport\Http\Controllers\AccessTokenController as BaseAccessTokenController;

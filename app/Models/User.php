@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Model
 {
-    use AwesomeModel;
+    use AwesomeModel, HasApiTokens;
 
     protected $fillable = [
         'name',

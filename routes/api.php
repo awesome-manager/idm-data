@@ -14,16 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => 'token', 'namespace' => 'Tokens'], function () {
+    Route::group(['prefix' => 'token', 'namespace' => 'Token'], function () {
         Route::post('/client', [
             'uses' => 'AccessTokenController@getClientToken',
-            'as' => 'token'
+            'as' => 'token.client'
         ]);
 
         Route::post('/user', [
             'middleware' => 'client_credentials:private',
             'uses' => 'AccessTokenController@getUserToken',
-            'as' => 'token'
+            'as' => 'token.user'
+        ]);
+    });
+
+    Route::group(['prefix' => 'user', 'namespace' => 'User', 'middleware' => 'auth:idm'], function () {
+        Route::get('/', [
+            'uses' => 'UserController@getUserInfo',
+            'as' => 'user.info'
         ]);
     });
 });

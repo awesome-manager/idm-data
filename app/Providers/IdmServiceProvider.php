@@ -3,9 +3,7 @@
 namespace App\Providers;
 
 use App\Models;
-use App\IdmData\Services;
-use App\IdmData\Repositories;
-use App\IdmData\Contracts as Contracts;
+use App\IdmData\{Contracts as Contracts, Repositories};
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
@@ -32,7 +30,7 @@ class IdmServiceProvider extends ServiceProvider implements DeferrableProvider
     public function provides()
     {
         return [
-//            Contracts\Repositories\BlackListRepository::class,
+            Contracts\Repositories\UserRepository::class,
 
 //            Contracts\Services\BlackListService::class,
         ];
