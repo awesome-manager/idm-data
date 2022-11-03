@@ -11,6 +11,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract
     {
         return $this->getModel()->newQuery()
             ->where('is_active', true)
+            ->with('roles:id,code,name')
             ->find($id, ['id', 'name', 'surname', 'second_name', 'phone', 'email']);
     }
 
@@ -20,6 +21,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract
             ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email'])
             ->where('is_active', true)
             ->where('phone', $phone)
+            ->with('roles:id,code,name')
             ->first();
     }
 
@@ -29,6 +31,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract
             ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email'])
             ->where('is_active', true)
             ->where('email', $email)
+            ->with('roles:id,code,name')
             ->first();
     }
 }
