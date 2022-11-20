@@ -3,35 +3,39 @@
 namespace App\IdmData\Repositories;
 
 use App\IdmData\Contracts\Repositories\UserRepository as RepositoryContract;
-use Illuminate\Database\Eloquent\Model;
+use Awesome\Foundation\Repositories\AbstractRepository;
+use Illuminate\Database\Eloquent\{Builder, Model};
 
 class UserRepository extends AbstractRepository implements RepositoryContract
 {
     public function getById(string $id): ?Model
     {
-        return $this->getModel()->newQuery()
-            ->where('is_active', true)
-            ->with('roles:id,code,name')
-            ->find($id, ['id', 'name', 'surname', 'second_name', 'phone', 'email']);
+        return $this->getUserQuery()->find($id);
     }
 
     public function getByPhone(string $phone): ?Model
     {
-        return $this->getModel()->newQuery()
-            ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email'])
-            ->where('is_active', true)
+        return $this->getUserQuery()
             ->where('phone', $phone)
-            ->with('roles:id,code,name')
             ->first();
     }
 
     public function getByEmail(string $email): ?Model
     {
+        return $this->getUserQuery()
+            ->where('email', $email)
+            ->first();
+    }
+
+    public function bindAccessGroupPages(Model $model): Model
+    {
+        return $model->load('roles.accessGroups.accessGroupPages:id,access_group_code,site_page_code');
+    }
+
+    private function getUserQuery(): Builder
+    {
         return $this->getModel()->newQuery()
             ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email'])
-            ->where('is_active', true)
-            ->where('email', $email)
-            ->with('roles:id,code,name')
-            ->first();
+            ->where('is_active', true);
     }
 }

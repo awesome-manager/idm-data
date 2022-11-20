@@ -24,15 +24,13 @@ class IdmServiceProvider extends ServiceProvider implements DeferrableProvider
 
     private function registerServices()
     {
-//        $this->app->bind(Contracts\Services\BlackListService::class, Services\BlackListService::class);
+        //
     }
 
     public function provides()
     {
         return [
             Contracts\Repositories\UserRepository::class,
-
-//            Contracts\Services\BlackListService::class,
         ];
     }
 }

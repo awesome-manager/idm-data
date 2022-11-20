@@ -2,7 +2,7 @@
 
 namespace App\IdmData\Passport\UserProviders;
 
-use App\IdmData\Contracts\Repositories\UserRepository;
+use App\Facades\Repository;
 use Illuminate\Contracts\Auth\{Authenticatable, UserProvider};
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,17 +10,17 @@ class IdmUserProvider implements UserProvider
 {
     public function retrieveById($identifier): ?Model
     {
-        return app(UserRepository::class)->getById($identifier);
+        return $this->bindAccess(Repository::user()->getById($identifier));
     }
 
     public function retrieveByCredentials(array $credentials): ?Model
     {
         if (isset($credentials['phone'])) {
-            return app(UserRepository::class)->getByPhone($credentials['phone']);
+            return $this->bindAccess(Repository::user()->getByPhone($credentials['phone']));
         }
 
         if (isset($credentials['email'])) {
-            return app(UserRepository::class)->getByEmail($credentials['email']);
+            return $this->bindAccess(Repository::user()->getByEmail($credentials['email']));
         }
 
         return null;
@@ -39,5 +39,14 @@ class IdmUserProvider implements UserProvider
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
         // TODO: Implement validateCredentials() method.
+    }
+
+    private function bindAccess(?Model $user): ?Model
+    {
+        if (is_null($user)) {
+            return null;
+        }
+
+        return Repository::user()->bindAccessGroupPages($user);
     }
 }

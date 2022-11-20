@@ -11,4 +11,6 @@ interface UserRepository
     public function getByPhone(string $phone): ?Model;
 
     public function getByEmail(string $email): ?Model;
+
+    public function bindAccessGroupPages(Model $model): Model;
 }
