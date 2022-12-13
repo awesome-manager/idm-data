@@ -36,7 +36,19 @@ class User extends Model
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_role')->withPivot(['entity_type', 'entity_id']);
+        return $this->belongsToMany(Role::class, 'user_role')->withPivot(['id', 'full_access']);
+    }
+
+    public function roleFilters(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            UserRoleFilter::class,
+            'user_role',
+            'user_id',
+            'id',
+            'id',
+            'user_role_id'
+        );
     }
 
     public function findAndValidateForPassport(string $phone, string $password): ?Model

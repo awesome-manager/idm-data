@@ -47,6 +47,6 @@ class IdmUserProvider implements UserProvider
             return null;
         }
 
-        return Repository::user()->bindAccessGroupPages($user);
+        return Repository::user()->bindAccessGroupPages(Repository::user()->bindRoleFilters($user));
     }
 }

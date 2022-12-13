@@ -58,7 +58,6 @@ return new class extends Migration
     private function upRoleAccessGroup(): void
     {
         Schema::create('role_access_group', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->string('role_code', 100);
             $table->string('access_group_code', 100);
 

@@ -12,5 +12,7 @@ interface UserRepository
 
     public function getByEmail(string $email): ?Model;
 
+    public function bindRoleFilters(Model $model): Model;
+
     public function bindAccessGroupPages(Model $model): Model;
 }
