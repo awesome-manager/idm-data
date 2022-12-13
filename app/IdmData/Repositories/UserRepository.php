@@ -27,9 +27,20 @@ class UserRepository extends AbstractRepository implements RepositoryContract
             ->first();
     }
 
+    public function bindRoleFilters(Model $model): Model
+    {
+        return $model->load([
+            'roleFilters:id,user_role_id,entity_type,entity_id'
+        ]);
+    }
+
     public function bindAccessGroupPages(Model $model): Model
     {
-        return $model->load('roles.accessGroups.accessGroupPages:id,access_group_code,site_page_code');
+        return $model->load([
+            'roles:id,name,code',
+            'roles.accessGroups:id,code,has_filter',
+            'roles.accessGroups.accessGroupPages:id,access_group_code,site_page_code'
+        ]);
     }
 
     private function getUserQuery(): Builder

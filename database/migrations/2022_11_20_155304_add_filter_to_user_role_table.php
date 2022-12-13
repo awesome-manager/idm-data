@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('full_access')->default(false);
         });
 
-        Schema::create('user_role_filter', function (Blueprint $table) {
+        Schema::create('user_role_filters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_role_id');
             $table->string('entity_type', 100)->nullable();
@@ -35,9 +35,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('user_role', function (Blueprint $table) {
-            $table->dropColumn(['id']);
+            $table->dropColumn(['id', 'full_access']);
         });
 
-        Schema::dropIfExists('user_role_filter');
+        Schema::dropIfExists('user_role_filters');
     }
 };

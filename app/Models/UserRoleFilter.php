@@ -5,15 +5,13 @@ namespace App\Models;
 use Awesome\Foundation\Traits\Models\AwesomeModel;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class UserRoleFilter extends Model
 {
     use AwesomeModel;
 
-    protected $table = 'user_role';
-
     protected $fillable = [
-        'user_id',
-        'role_id',
-        'full_access'
+        'user_role_id',
+        'entity_type',
+        'entity_id'
     ];
 }
