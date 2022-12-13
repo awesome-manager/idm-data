@@ -46,7 +46,8 @@ class GetUserInfoTest extends AbstractToken
                 'surname',
                 'second_name',
                 'phone',
-                'email'
+                'email',
+                'roles'
             ]
         ];
     }
