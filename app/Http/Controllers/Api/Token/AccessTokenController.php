@@ -18,6 +18,7 @@ class AccessTokenController extends BaseAccessTokenController
 {
     private string $clientGrantType = 'client_credentials';
     private string $userGrantType = 'password';
+    protected string $refreshGrantType = 'refresh_token';
 
     public function getClientToken(ServerRequestInterface $request): Response
     {
@@ -45,6 +46,19 @@ class AccessTokenController extends BaseAccessTokenController
         return $this->issueToken($request);
     }
 
+    public function refreshAccessToken(ServerRequestInterface $request): Response
+    {
+        $request = $request->withParsedBody(array_merge(
+            $request->getParsedBody(),
+            [
+                'grant_type' => $this->refreshGrantType,
+                'scope' => 'user'
+            ]
+        ));
+
+        return $this->issueToken($request);
+    }
+
     /**
      * @throws InvalidTokenException
      */
@@ -57,9 +71,11 @@ class AccessTokenController extends BaseAccessTokenController
         $tokenId = $this->getRequestBearerToken($request);
 
         $success = DB::transaction(function () use ($tokenRepository, $refreshTokenRepository, $tokenId) {
+            $success = (bool)$tokenRepository->revokeAccessToken($tokenId);
+
             $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
 
-            return $tokenRepository->revokeAccessToken($tokenId);
+            return $success;
         });
 
         return response()->jsonResponse((new RevokeUserTokenResource($success))->toArray());
