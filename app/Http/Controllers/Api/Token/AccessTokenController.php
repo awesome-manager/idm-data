@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers\Api\Token;
 
-use Illuminate\Http\Response;
+use App\Exceptions\Token\InvalidTokenException;
+use App\Http\Resources\Token\RevokeUserTokenResource;
+use Illuminate\Http\{JsonResponse, Response};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Passport\Http\Controllers\AccessTokenController as BaseAccessTokenController;
+use Lcobucci\JWT\Token\Plain;
+use Laravel\Passport\{RefreshTokenRepository, TokenRepository};
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Psr\Http\Message\ServerRequestInterface;
 
 class AccessTokenController extends BaseAccessTokenController
@@ -35,5 +43,54 @@ class AccessTokenController extends BaseAccessTokenController
         ));
 
         return $this->issueToken($request);
+    }
+
+    /**
+     * @throws InvalidTokenException
+     */
+    public function revokeUserToken(
+        TokenRepository         $tokenRepository,
+        RefreshTokenRepository  $refreshTokenRepository,
+        ServerRequestInterface  $request
+    ): JsonResponse
+    {
+        $tokenId = $this->getRequestBearerToken($request);
+
+        $success = DB::transaction(function () use ($tokenRepository, $refreshTokenRepository, $tokenId) {
+            $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+
+            return $tokenRepository->revokeAccessToken($tokenId);
+        });
+
+        return response()->jsonResponse((new RevokeUserTokenResource($success))->toArray());
+    }
+
+    /**
+     * @throws InvalidTokenException
+     */
+    private function getRequestBearerToken(ServerRequestInterface $request): ?string
+    {
+        $token = $request->getHeaderLine(config('idm.user_token_header'));
+
+        if (Str::startsWith($token, 'Bearer ')) {
+            $token = Str::substr($token, 7);
+        }
+
+        if (empty($token)) {
+            return null;
+        }
+
+        try {
+            $token = app(Parser::class)->parse($token);
+        } catch (\ParseError|InvalidTokenStructure $error) {
+            throw new InvalidTokenException();
+        }
+
+        return $this->getClaim($token);
+    }
+
+    private function getClaim(Plain $token): ?string
+    {
+        return $token->claims()->get('jti');
     }
 }
