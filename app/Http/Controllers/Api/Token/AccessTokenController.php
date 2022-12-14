@@ -71,9 +71,11 @@ class AccessTokenController extends BaseAccessTokenController
         $tokenId = $this->getRequestBearerToken($request);
 
         $success = DB::transaction(function () use ($tokenRepository, $refreshTokenRepository, $tokenId) {
+            $success = (bool)$tokenRepository->revokeAccessToken($tokenId);
+
             $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
 
-            return $tokenRepository->revokeAccessToken($tokenId);
+            return $success;
         });
 
         return response()->jsonResponse((new RevokeUserTokenResource($success))->toArray());
