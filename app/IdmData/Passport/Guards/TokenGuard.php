@@ -2,6 +2,7 @@
 
 namespace App\IdmData\Passport\Guards;
 
+use Illuminate\Support\Str;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\PassportUserProvider;
@@ -43,8 +44,13 @@ class TokenGuard extends BaseTokenGuard
     {
         $userTokenHeader = config('idm.user_token_header');
 
-        $userToken = $this->request->header($userTokenHeader, '');
+        $userToken = trim($this->request->header($userTokenHeader, ''));
+
+        if (!Str::startsWith($userToken, 'Bearer ')) {
+            $userToken = "Bearer $userToken";
+        }
+
         $this->request->headers->set($userTokenHeader, '');
-        $this->request->headers->set('Authorization', trim("Bearer $userToken"));
+        $this->request->headers->set('Authorization', $userToken);
     }
 }
