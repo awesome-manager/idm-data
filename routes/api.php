@@ -20,6 +20,11 @@ Route::prefix('v1')->group(function () {
             'as' => 'token.client'
         ]);
 
+        Route::post('refresh', [
+            'uses' => 'AccessTokenController@refreshAccessToken',
+            'as' => 'token.refresh'
+        ]);
+
         Route::group(['prefix' => 'user', 'middleware' => 'client_credentials:private'], function () {
             Route::post('/', [
                 'uses' => 'AccessTokenController@getUserToken',
