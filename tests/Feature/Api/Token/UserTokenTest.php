@@ -5,14 +5,12 @@ namespace Tests\Feature\Api\Token;
 use App\Models\User;
 use Awesome\Foundation\Traits\Tests\DataHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Passport\Client;
 
 class UserTokenTest extends AbstractToken
 {
     use DataHandler, RefreshDatabase;
 
     private string $route = '/api/v1/token/user';
-
 
     public function test_get_token_successful(): void
     {
@@ -30,10 +28,7 @@ class UserTokenTest extends AbstractToken
 
     public function test_get_token_error(): void
     {
-        $client = $this->createClient([
-            'provider' => 'users',
-            'password_client' => true
-        ]);
+        $client = $this->createUserClient();
         $this->createClientToken($client);
 
         User::createActiveEntity();

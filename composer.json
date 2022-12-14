@@ -10,7 +10,7 @@
         "laravel/framework": "^9.19",
         "laravel/passport": "^11.3",
         "laravel/tinker": "^2.7",
-        "my-awesome-packages/foundation": "^1.1",
+        "my-awesome-packages/foundation": "^1.2",
         "my-awesome-packages/rest": "^1.0"
     },
     "require-dev": {

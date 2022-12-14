@@ -105,7 +105,16 @@ abstract class AbstractToken extends TestCase
     protected function getAuthorizationHeaders(): array
     {
         return [
-            'Authorization' => "{$this->tokenType} $this->token"
+            'Authorization' => "{$this->tokenType} {$this->token}"
+        ];
+    }
+
+    protected function getUserAuthorizationHeaders(string $token = null): array
+    {
+        $token = $token ?: $this->userToken;
+
+        return [
+            config('idm.user_token_header') => "{$this->userTokenType} {$token}"
         ];
     }
 
