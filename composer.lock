@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b09916efbf2e77166e2529f288f4159e",
+    "content-hash": "ecad22127309a80e43505bf04646752f",
     "packages": [
         {
             "name": "brick/math",
@@ -2300,6 +2300,45 @@
                 }
             ],
             "time": "2022-07-24T11:55:47+00:00"
+        },
+        {
+            "name": "my-awesome-packages/filesystem",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/my-awesome-packages/filesystem.git",
+                "reference": "bd7464b6b62a0d3a96f1756148ebd893356730ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/my-awesome-packages/filesystem/zipball/bd7464b6b62a0d3a96f1756148ebd893356730ea",
+                "reference": "bd7464b6b62a0d3a96f1756148ebd893356730ea",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0",
+                "illuminate/filesystem": "^9.0",
+                "illuminate/support": "^9.0",
+                "php": "^8.1",
+                "ramsey/uuid": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Awesome\\Filesystem\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Awesome filesystem",
+            "support": {
+                "source": "https://github.com/my-awesome-packages/filesystem/tree/v1.0.0",
+                "issues": "https://github.com/my-awesome-packages/filesystem/issues"
+            },
+            "time": "2022-12-15T06:10:51+00:00"
         },
         {
             "name": "my-awesome-packages/foundation",
