@@ -43,6 +43,30 @@ Route::prefix('v1')->group(function () {
             'uses' => 'UserController@getUserInfo',
             'as' => 'user.info'
         ]);
+
+        Route::group(['prefix' => '{id}'], function () {
+            Route::post('/', [
+                'uses' => 'UserController@updateUserInfo',
+                'as' => 'user.info.update'
+            ]);
+
+            Route::group(['prefix' => 'image'], function () {
+                Route::post('/', [
+                    'uses' => 'UserImageController@createUserImage',
+                    'as' => 'user.image.create'
+                ]);
+
+                Route::post('/{id}', [
+                    'uses' => 'UserImageController@updateUserImage',
+                    'as' => 'user.image.update'
+                ]);
+
+                Route::delete('/{id}', [
+                    'uses' => 'UserImageController@deleteUserImage',
+                    'as' => 'user.image.delete'
+                ]);
+            });
+        });
     });
 });
 

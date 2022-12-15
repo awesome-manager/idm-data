@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models;
-use App\IdmData\{Contracts as Contracts, Repositories};
+use App\IdmData\{Contracts, Repositories, Services};
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
@@ -24,13 +24,15 @@ class IdmServiceProvider extends ServiceProvider implements DeferrableProvider
 
     private function registerServices()
     {
-        //
+        $this->app->bind(Contracts\Services\UserService::class, Services\UserService::class);
     }
 
     public function provides()
     {
         return [
             Contracts\Repositories\UserRepository::class,
+
+            Contracts\Services\UserService::class,
         ];
     }
 }

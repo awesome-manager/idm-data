@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Api\User;
 
 use Awesome\Foundation\Traits\Resources\Resourceable;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'second_name' => $this->string($this->resource->second_name),
             'phone' => $this->string($this->resource->phone),
             'email' => $this->string($this->resource->email),
+            'image' => $this->string($this->resource->image?->getCloudPath()),
             'roles' => $this->resource->roles?->map(fn($role) => $this->prepareRole($role))->all(),
         ];
     }

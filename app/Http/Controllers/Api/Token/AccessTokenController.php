@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\Token;
 
 use App\Exceptions\Token\InvalidTokenException;
-use App\Http\Resources\Token\RevokeUserTokenResource;
+use App\Http\Resources\Api\Token\RevokeUserTokenResource;
 use Illuminate\Http\{JsonResponse, Response};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Laravel\Passport\Http\Controllers\AccessTokenController as BaseAccessTokenController;
-use Lcobucci\JWT\Token\Plain;
 use Laravel\Passport\{RefreshTokenRepository, TokenRepository};
+use Laravel\Passport\Http\Controllers\AccessTokenController as BaseAccessTokenController;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
+use Lcobucci\JWT\Token\Plain;
 use Psr\Http\Message\ServerRequestInterface;
 
 class AccessTokenController extends BaseAccessTokenController
