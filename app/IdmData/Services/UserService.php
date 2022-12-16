@@ -2,11 +2,11 @@
 
 namespace App\IdmData\Services;
 
-use App\Exceptions\User\UserAlreadyHasAnImageException;
 use App\Facades\Repository;
 use App\IdmData\Contracts\Services\UserService as ServiceContract;
 use Awesome\Filesystem\Contracts\FileService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\File;
 
 class UserService implements ServiceContract
@@ -32,23 +32,46 @@ class UserService implements ServiceContract
 
     public function createUserImage(string $id, File $file): ?Model
     {
-        if (!empty(Repository::user()->getById($id)->image_id)) {
-            throw new UserAlreadyHasAnImageException();
+        $user = Repository::user()->getById($id);
+        if (!empty($user?->image_id)) {
+            $this->fileService->update($user->image_id, $file);
+
+            return $user->image;
         }
 
         $fileModel = $this->fileService->create($file, $this->keyPath);
-
-        if ($this->updateUserImage($id, $fileModel->id)) {
+        if ($this->updateUserImageId($id, $fileModel->id)) {
             return $fileModel;
         }
 
         return null;
     }
 
-    private function updateUserImage(string $id, ?string $imageId): bool
+    public function deleteUserImage(string $id): bool
+    {
+        $userImageId = Repository::user()->getById($id)?->image_id;
+        if (!empty($userImageId)) {
+            $this->deleteUserImageFile($userImageId);
+        }
+
+        return $this->updateUserImageId($id, null);
+    }
+
+    private function updateUserImageId(string $id, ?string $imageId): bool
     {
         return Repository::user()->update($id, [
             'image_id' => $imageId
         ]);
+    }
+
+    private function deleteUserImageFile(string $imageId): void
+    {
+        try {
+            $this->fileService->delete($imageId);
+        } catch (\Throwable $e) {
+            Log::error('Cant delete user image from file storage: ', [
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 }

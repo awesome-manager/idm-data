@@ -2578,16 +2578,16 @@
         },
         {
             "name": "my-awesome-packages/filesystem",
-            "version": "v1.0.2",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/my-awesome-packages/filesystem.git",
-                "reference": "10f5fa0464ae2b862901de2f1e6b8e95ead0e4c9"
+                "reference": "0780b20ac054ae2040b02ef77b4a96f68ba1c3cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/my-awesome-packages/filesystem/zipball/10f5fa0464ae2b862901de2f1e6b8e95ead0e4c9",
-                "reference": "10f5fa0464ae2b862901de2f1e6b8e95ead0e4c9",
+                "url": "https://api.github.com/repos/my-awesome-packages/filesystem/zipball/0780b20ac054ae2040b02ef77b4a96f68ba1c3cc",
+                "reference": "0780b20ac054ae2040b02ef77b4a96f68ba1c3cc",
                 "shasum": ""
             },
             "require": {
@@ -2611,10 +2611,10 @@
             ],
             "description": "Awesome filesystem",
             "support": {
-                "source": "https://github.com/my-awesome-packages/filesystem/tree/v1.0.2",
+                "source": "https://github.com/my-awesome-packages/filesystem/tree/v1.0.4",
                 "issues": "https://github.com/my-awesome-packages/filesystem/issues"
             },
-            "time": "2022-12-15T15:44:40+00:00"
+            "time": "2022-12-16T07:51:20+00:00"
         },
         {
             "name": "my-awesome-packages/foundation",

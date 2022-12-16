@@ -21,6 +21,8 @@ class User extends Model
         'second_name',
         'phone',
         'email',
+        'image_id',
+        'is_active'
     ];
 
     protected $casts = [

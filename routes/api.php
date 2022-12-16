@@ -56,12 +56,7 @@ Route::prefix('v1')->group(function () {
                     'as' => 'user.image.create'
                 ]);
 
-                Route::post('/{id}', [
-                    'uses' => 'UserImageController@updateUserImage',
-                    'as' => 'user.image.update'
-                ]);
-
-                Route::delete('/{id}', [
+                Route::delete('/', [
                     'uses' => 'UserImageController@deleteUserImage',
                     'as' => 'user.image.delete'
                 ]);
