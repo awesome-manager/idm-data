@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Awesome\Filesystem\Models\File;
 use Awesome\Foundation\Traits\Models\AwesomeModel;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne};
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 
@@ -20,8 +21,8 @@ class User extends Model
         'second_name',
         'phone',
         'email',
-        'password',
-        'is_active',
+        'image_id',
+        'is_active'
     ];
 
     protected $casts = [
@@ -49,6 +50,11 @@ class User extends Model
             'id',
             'user_role_id'
         );
+    }
+
+    public function image(): HasOne
+    {
+        return $this->hasOne(File::class, 'id', 'image_id');
     }
 
     public function findAndValidateForPassport(string $phone, string $password): ?Model

@@ -24,6 +24,11 @@ class AccessGroupPageSeeder extends Seeder
             'is_active' => true
         ],
         [
+            'access_group_code' => 'main',
+            'site_page_code' => 'profile',
+            'is_active' => true
+        ],
+        [
             'access_group_code' => 'projects',
             'site_page_code' => 'projects',
             'is_active' => true
