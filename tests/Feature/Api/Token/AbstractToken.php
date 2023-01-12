@@ -16,6 +16,7 @@ abstract class AbstractToken extends TestCase
     protected ?string $tokenType = null;
     protected ?string $userToken = null;
     protected ?string $userTokenType = null;
+    protected ?string $userRefreshToken = null;
 
     protected function createClientToken(Model $client = null): TestResponse
     {
@@ -72,6 +73,7 @@ abstract class AbstractToken extends TestCase
 
         if (!empty($responseContent = json_decode($response->getContent()))) {
             $this->userToken = $responseContent->access_token ?? null;
+            $this->userRefreshToken = $responseContent->refresh_token ?? null;
             $this->userTokenType = $responseContent->token_type ?? null;
         }
 
@@ -105,7 +107,16 @@ abstract class AbstractToken extends TestCase
     protected function getAuthorizationHeaders(): array
     {
         return [
-            'Authorization' => "{$this->tokenType} $this->token"
+            'Authorization' => "{$this->tokenType} {$this->token}"
+        ];
+    }
+
+    protected function getUserAuthorizationHeaders(string $token = null): array
+    {
+        $token = $token ?: $this->userToken;
+
+        return [
+            config('idm.user_token_header') => "{$this->userTokenType} {$token}"
         ];
     }
 

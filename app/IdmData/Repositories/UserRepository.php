@@ -27,6 +27,15 @@ class UserRepository extends AbstractRepository implements RepositoryContract
             ->first();
     }
 
+    public function update(string $id, array $parameters): bool
+    {
+        if ($model = $this->getById($id)) {
+            return $model->update($parameters);
+        }
+
+        return false;
+    }
+
     public function bindRoleFilters(Model $model): Model
     {
         return $model->load([
@@ -46,7 +55,8 @@ class UserRepository extends AbstractRepository implements RepositoryContract
     private function getUserQuery(): Builder
     {
         return $this->getModel()->newQuery()
-            ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email'])
+            ->select(['id', 'name', 'surname', 'second_name', 'phone', 'email', 'image_id'])
+            ->with('image:id,path')
             ->where('is_active', true);
     }
 }
